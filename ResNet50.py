@@ -1,12 +1,13 @@
 from keras.applications.resnet50 import ResNet50
 from keras.preprocessing import image
 from keras.models import Model
-from keras.layers import Dense, GlobalAveragePooling2D, Flatten, Dropout
+from keras.layers import GlobalMaxPool2D, Dense, GlobalAveragePooling2D, Flatten, Dropout, Conv2D
 from keras.utils import plot_model
 
 base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(224,224,3))
-x = base_model.output
-x = Flatten()(x)
+#x = base_model.layers[172]
+#x = GlobalMaxPool2D()(x)
+x = Flatten()(base_model.output)
 x = Dropout(rate=0.99)(x)
 pred = Dense(10, activation='softmax')(x)
 

@@ -20,4 +20,5 @@ def read_all(ds_path):
     for cls in classes:
         data = read_cls(ds_path, cls)
         all.append(data)
+    print('reading completed')
     return all

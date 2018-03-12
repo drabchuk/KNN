@@ -4,15 +4,18 @@ from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D, Flatten, Dropout
 from keras.utils import plot_model
 from keras.models import load_model
+import keras
 import cv2
 import os
 import csv
 import numpy as np
 
-base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
-fine_tuned_model = load_model('D:\ML\ArtiD\kaggle\GoogleLandmark\models\\res_from140.h5')
-weights = fine_tuned_model.get_weights()
-base_model.set_weights(weights[:-1])
+base_model = keras.applications.InceptionV3(include_top=False, weights='imagenet', pooling=None, input_shape=(224, 224, 3))
+#fine_tuned_model = load_model('D:\ML\ArtiD\kaggle\GoogleLandmark\models\\res_from140.h5')
+#weights = fine_tuned_model.get_weights()
+#base_model.set_weights(weights[:-1])
+
+base_model.summary()
 
 path = 'D:\ML\ArtiD\kaggle\GoogleLandmark\\train_set'
 # cv2.imshow('dst_rt', img)
@@ -26,12 +29,7 @@ for cls in dirs:
     i = 1
     for img_name in imgs[2500:]:
         img = cv2.imread(cls_path + '\\' + img_name)
-        out = None
-        try:
-            out = base_model.predict(img.reshape((1, 224, 224, 3)))
-        except Exception:
-            print('Prediction error')
-            continue
+        out = base_model.predict(img.reshape((1, 224, 224, 3)))
         vec = out.reshape(2048)
         vec_round = vec.round(decimals=4)
         csv_matrix.append(list(vec_round.astype(str)))

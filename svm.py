@@ -3,7 +3,7 @@ from data_reader import *
 from sklearn.model_selection import train_test_split
 
 #data = read_all('D:\ML\ArtiD\kaggle\GoogleLandmark\dataset\\resnet_small')
-data = read_all('D:\ML\ArtiD\kaggle\GoogleLandmark\dataset\\resnetFeatures')
+data = read_all('D:\ML\ArtiD\kaggle\GoogleLandmark\dataset\\resnetFeatures_from140')
 X = []
 y = []
 for cls, cls_samples in enumerate(data):
@@ -14,7 +14,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 X, y, test_size=0.33, random_state=42)
 
 print('reading completed')
-clf = linear_model.SGDClassifier(loss='log')
+clf = linear_model.SGDClassifier()
 clf.fit(X_train, y_train)
 print(clf.score(X_test, y_test))
-#print(clf.predict([[0, 0, 0, 0]]))

@@ -17,8 +17,42 @@ def read_cls(ds_path, cls_data):
 def read_all(ds_path):
     classes = os.listdir(ds_path)
     all = []
+    counter = 0
     for cls in classes:
+        counter += 1
+        print(counter)
+        print('reading', cls)
         data = read_cls(ds_path, cls)
         all.append(data)
     print('reading completed')
-    return all
+    return classes, all
+
+def read_bounded(ds_path, max_samples):
+    classes = os.listdir(ds_path)
+    all = []
+    counter = 0
+    for cls in classes:
+        counter += 1
+        print(counter)
+        print('reading', cls)
+        data = read_cls(ds_path, cls)
+        if len(data) > max_samples:
+            data = data[:max_samples]
+        all.append(data)
+    print('reading completed')
+    return classes, all
+
+def read_part(ds_path, max_classes):
+    classes = os.listdir(ds_path)
+    all = []
+    counter = 0
+    for cls in classes:
+        counter += 1
+        if counter > max_classes:
+            break
+        print(counter)
+        print('reading', cls)
+        data = read_cls(ds_path, cls)
+        all.append(data)
+    print('reading completed')
+    return classes[:counter - 1], all
